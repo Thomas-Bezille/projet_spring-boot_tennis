@@ -11,7 +11,7 @@ public class HealthCheckRepository {
     private EntityManager entityManager;
 
     public Long countApplicationConnections() {
-        String applicationConnectionQuery = "select count(*) from pg_stat_activity where application_name = 'PostgreSQL JDBC Driver";
-        return (Long) entityManager.createNativeQuery(applicationConnectionQuery).getSingleResult();
+        String applicationConnectionsQuery = "select count(*) from pg_stat_activity where application_name = 'PostgreSQL JDBC Driver'";
+        return (Long) entityManager.createNativeQuery(applicationConnectionsQuery).getSingleResult();
     }
 }
