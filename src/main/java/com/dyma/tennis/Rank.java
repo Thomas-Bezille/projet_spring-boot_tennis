@@ -1,4 +1,10 @@
 package com.dyma.tennis;
 
-public record Rank(int position, int points) {
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+
+public record Rank(
+        @Positive int position,
+        @PositiveOrZero int points
+) {
 }
