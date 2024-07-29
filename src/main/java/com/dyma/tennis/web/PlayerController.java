@@ -1,6 +1,7 @@
 package com.dyma.tennis.web;
 
 import com.dyma.tennis.Player;
+import com.dyma.tennis.PlayerList;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -26,7 +27,7 @@ public class PlayerController {
     })
     @GetMapping
     public List<Player> list() {
-        return Collections.emptyList();
+        return PlayerList.ALL;
     }
 
 
@@ -38,7 +39,10 @@ public class PlayerController {
     })
     @GetMapping("/{lastName}")
     public Player getByLastName(@PathVariable("lastName") String lastName) {
-        return null;
+        return PlayerList.ALL.stream()
+                .filter(player -> player.lastName().equals(lastName))
+                .findFirst()
+                .orElse(null);
     }
 
 
