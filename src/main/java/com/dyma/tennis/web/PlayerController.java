@@ -2,6 +2,7 @@ package com.dyma.tennis.web;
 
 import com.dyma.tennis.Player;
 import com.dyma.tennis.PlayerList;
+import com.dyma.tennis.PlayerToRegister;
 import com.dyma.tennis.service.PlayerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -56,11 +57,11 @@ public class PlayerController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Created Players",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Player.class))})
+                            schema = @Schema(implementation = PlayerToRegister.class))})
     })
     @PostMapping
-    public Player createPlayer(@RequestBody @Valid Player player) {
-        return player;
+    public Player createPlayer(@RequestBody @Valid PlayerToRegister playerToRegister) {
+        return playerService.create(playerToRegister);
     }
 
 

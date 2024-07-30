@@ -2,6 +2,7 @@ package com.dyma.tennis.service;
 
 import com.dyma.tennis.Player;
 import com.dyma.tennis.PlayerList;
+import com.dyma.tennis.PlayerToRegister;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -22,5 +23,14 @@ public class PlayerService {
                 .filter(player -> player.lastName().equals(lastName))
                 .findFirst()
                 .orElseThrow(() -> new PlayerNotFoundException(lastName));
+    }
+
+    public Player create(PlayerToRegister playerToRegister) {
+        RankingCalculator rankingCalculator = new RankingCalculator(PlayerList.ALL, playerToRegister);
+        List<Player> players = rankingCalculator.getNewPlayersRanking();
+
+        return players.stream()
+                .filter(player -> player.lastName().equals(playerToRegister.lastName()))
+                .findFirst().get();
     }
 }
