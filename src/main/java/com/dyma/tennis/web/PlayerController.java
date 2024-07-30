@@ -2,7 +2,7 @@ package com.dyma.tennis.web;
 
 import com.dyma.tennis.Player;
 import com.dyma.tennis.PlayerList;
-import com.dyma.tennis.PlayerToRegister;
+import com.dyma.tennis.PlayerToSave;
 import com.dyma.tennis.service.PlayerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -57,11 +57,11 @@ public class PlayerController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Created Players",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = PlayerToRegister.class))})
+                            schema = @Schema(implementation = PlayerToSave.class))})
     })
     @PostMapping
-    public Player createPlayer(@RequestBody @Valid PlayerToRegister playerToRegister) {
-        return playerService.create(playerToRegister);
+    public Player createPlayer(@RequestBody @Valid PlayerToSave playerToSave) {
+        return playerService.create(playerToSave);
     }
 
 
@@ -69,11 +69,14 @@ public class PlayerController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Updated Players",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Player.class))})
+                            schema = @Schema(implementation = Player.class))}),
+            @ApiResponse(responseCode = "404", description = "Player with specified lastname was not found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Error.class))})
     })
     @PutMapping
-    public Player updatePlayer(@RequestBody @Valid Player player) {
-        return player;
+    public Player updatePlayer(@RequestBody @Valid PlayerToSave playerToSave) {
+        return playerService.update(playerToSave);
     }
 
 
