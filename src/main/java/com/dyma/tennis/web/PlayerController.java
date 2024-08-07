@@ -1,7 +1,6 @@
 package com.dyma.tennis.web;
 
 import com.dyma.tennis.Player;
-import com.dyma.tennis.PlayerList;
 import com.dyma.tennis.PlayerToSave;
 import com.dyma.tennis.service.PlayerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,7 +14,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
 @Tag(name = "Tennis players API")
@@ -57,7 +55,10 @@ public class PlayerController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Created Players",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = PlayerToSave.class))})
+                            schema = @Schema(implementation = PlayerToSave.class))}),
+            @ApiResponse(responseCode = "400", description = "Player with specified lastname already exists",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Error.class))})
     })
     @PostMapping
     public Player createPlayer(@RequestBody @Valid PlayerToSave playerToSave) {
