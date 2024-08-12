@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.dao.DataRetrievalFailureException;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +36,17 @@ public class PlayerServiceTest {
         Assertions.assertThat(allPlayers)
                 .extracting("lastName")
                 .containsExactly("Nadal", "Djokovic", "Federer", "Murray");
+    }
+
+    @Test
+    public void shouldFailToReturnPlayersRanking_WhenDataAccessExceptionOccurs() {
+        // Given
+        Mockito.when(playerRepository.findAll()).thenThrow(new DataRetrievalFailureException("Data access error"));
+        //When / Then
+        Exception exception = org.junit.jupiter.api.Assertions.assertThrows(PlayerDataRetrivalException.class, () -> {
+            playerService.getAllPlayers();
+        });
+        Assertions.assertThat(exception.getMessage()).isEqualTo("Could not be retrieve player data");
     }
 
     @Test
